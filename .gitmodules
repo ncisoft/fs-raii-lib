@@ -1,0 +1,3 @@
+[submodule "contrib/logger"]
+	path = contrib/logger
+	url = https://github.com/shiffthq/logger.git
