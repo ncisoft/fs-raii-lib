@@ -33,6 +33,7 @@ build/*
 # scons
 .sconsign.dblite
 config.log
+.sconf_temp/*
 # Misc
 .phony_target
 .xinit_done

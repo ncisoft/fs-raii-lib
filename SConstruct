@@ -47,6 +47,7 @@ def exists(env):
 home_dir = os.environ['HOME']
 env = Environment(CCFLAGS=['-g', '-std=c99', '-Wall', '-Wno-unused-label', \
                            '-O2',                                          \
+                           '-I./include',                                  \
                            '-I./',                                         \
                            ])
 env["CC"] = os.getenv("CC") or env["CC"]
