@@ -66,12 +66,11 @@ flags_linux = [
     '-x', 'c',
     '-I', '/home/leeyg/develop/cgc-lib/.xopt/include',
     '-I', '/usr/include/lua5.1/',
-    '-I', './src/',
     '-I', './include/',
     '-I', './utils/',
     '-I', '/.xopt/include',
     '-I', './contrib/lua51-ext',
-    '-I', '/usr/include/lua5.1'
+    '-I', '/usr/include/lua5.1',
     '-isystem',
     '/usr/include',
 ]

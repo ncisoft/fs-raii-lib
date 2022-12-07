@@ -96,3 +96,11 @@ let g:ale_c_incs = [
       \ '/usr/include/lua5.1'
       \]
 call SetupC99Incs()
+" let g:git_path = system("git rev-parse --show-toplevel 2>/dev/null")
+" let g:git_dir = substitute(g:git_path, '\n', '', '')
+"let git_vimrc = substitute(g:git_path, '\n', '', '') . "/.vimrc"
+let &tags=g:git_dir . "/tags"
+set autochdir
+
+" set tags=xtags
+"set tags=/home/leeyg/develop/fs-raii-lib/tags

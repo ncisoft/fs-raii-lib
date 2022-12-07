@@ -17,11 +17,7 @@ def dump_list(name):
         # print("-- " + str(var))
 
 
-env.ParseConfig('echo -I../.xopt/include/')
-dump_list('CPPPATH')
-dump_list('LIBS')
+topdir=Dir('#').abspath
+# env.ParseConfig('echo -I' + topdir + "/.xopt/include")
 
-env.ParseConfig('echo ../build/libcore.a')
-env.ParseConfig('echo ../.xopt/lib/liblogger.a')
-dump_list('LIBS')
-env.Program(target='../build/fs_raii-test', source='fs_raii-test.c')
+env.StaticLibrary(target=topdir + '/build/core', source='osclock.c')

@@ -45,10 +45,11 @@ def exists(env):
     return 1
 
 home_dir = os.environ['HOME']
-env = Environment(CCFLAGS=['-g', '-std=c99', '-Wall', '-Wno-unused-label', \
-                           '-O2',                                          \
-                           '-I./include',                                  \
-                           '-I./',                                         \
+env = Environment(CCFLAGS=['-g', '-std=gnu99', '-Wall', '-Wno-unused-label',
+                           '-O2',
+                           '-I./include',
+                           '-I./.xopt/include',
+                           '-I./',
                            ])
 env["CC"] = os.getenv("CC") or env["CC"]
 env["CXX"] = os.getenv("CXX") or env["CXX"]
@@ -110,7 +111,10 @@ generate(env)
 lib_logger = File('.xopt/lib/liblogger.a')
 xlibs = [libs, lib_logger]
 os = platform.system()
-print("")
+print(Dir('.').abspath)
+print(Dir('#').abspath)
+
 Export('env')
 Alias('tags', env.ctags(source='src/fs_raii.c', target='tags'))
+SConscript('src/SConstruct', variant_dir='build/core', exports='env')
 SConscript('tests/SConstruct', exports='env')
