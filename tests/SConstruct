@@ -24,6 +24,6 @@ dump_list('LIBS')
 env.ParseConfig('echo ../build/libcore.a')
 env.ParseConfig('echo ../.xopt/lib/liblogger.a')
 dump_list('LIBS')
-env.Program(target='../build/fs_raii-test', source='fs_raii-test.c')
+env.Program(target='../build/tests/fs_raii-test', source='fs_raii-test.c')
 header_deps = env["header_deps"]
-env.Depends('../build/fs_raii-test', header_deps)
+env.Depends('../build/tests/fs_raii-test', header_deps)

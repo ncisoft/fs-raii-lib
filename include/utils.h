@@ -48,6 +48,7 @@ extern void ut_print_time_elapsed_impl(ut_logger_context_t *ctx, char *keyword);
                                                \
 } while(0)
 
+
 #ifdef __cplusplus
 }
 #endif
