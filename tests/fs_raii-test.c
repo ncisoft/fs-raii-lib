@@ -51,9 +51,9 @@ int main()
   init_clock();
   msleep(1400);
   //msleep_usleep(2400);
-  print_time_elapsed();
+  ut_print_time_elapsed("step-00");
   msleep_usleep(400);
-  print_time_elapsed();
+  ut_print_time_elapsed("step-01");
   return 0;
 }
 

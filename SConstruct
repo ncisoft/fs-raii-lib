@@ -24,7 +24,7 @@ def generate(env):
     if env['CTAGS'] is not None:
         # env['CTAGSCOM'] = 'cd $TARGET.dir; ctags -R .'
         customized = ('$CTAGS --tag-relative=yes --langmap=c:.c.h -f '
-                      '$TARGET src/*.[hc] tests/*.[hc]')
+                      '$TARGET src/*.[hc] tests/*.[hc] .xopt/include/*.h')
         env['CTAGSCOM'] = customized
         env['BUILDERS']['ctags'] = SCons.Builder.Builder(action=customized)
     else:
@@ -113,7 +113,13 @@ xlibs = [libs, lib_logger]
 os = platform.system()
 print(Dir('.').abspath)
 print(Dir('#').abspath)
+top_dir = Dir('.').abspath
 
+header_deps = ['include/utils.h', 'include/fs_raii.h']
+for i, dep in enumerate(header_deps):
+    header_deps[i] = top_dir + "/" + dep
+
+env["header_deps"] = header_deps
 Export('env')
 Alias('tags', env.ctags(source='src/fs_raii.c', target='tags'))
 SConscript('src/SConstruct', variant_dir='build/core', exports='env')

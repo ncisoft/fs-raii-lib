@@ -21,3 +21,5 @@ topdir=Dir('#').abspath
 # env.ParseConfig('echo -I' + topdir + "/.xopt/include")
 
 env.StaticLibrary(target=topdir + '/build/core', source='osclock.c')
+header_deps = env["header_deps"]
+env.Depends(topdir + '/build/libcore.a', header_deps)

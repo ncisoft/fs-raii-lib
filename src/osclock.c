@@ -7,13 +7,13 @@
 #include <sys/select.h>
 #include <utils.h>
 
-typedef struct timeval _clock_t;
+typedef struct timeval ut_clock_t;
 
 static struct
 {
   bool clock_inited ;
   u_int clock_counter;
-  _clock_t start_t;
+  ut_clock_t start_t;
 } L =
 {
   .clock_inited = false,
@@ -27,9 +27,9 @@ static struct
  * 1 second = 1,000 * 1,000 * 1,000 nanoseconds
  */
 
-_clock_t get_clock_t()
+ut_clock_t get_clock_t()
 {
-  _clock_t now;
+  ut_clock_t now;
   gettimeofday(&now, NULL);
   return now;
 }
@@ -42,9 +42,10 @@ void init_clock()
       L.start_t = get_clock_t();
     }
 }
-static _clock_t time_offset()
+
+ut_clock_t time_offset()
 {
-  _clock_t now, ts_offset;
+  ut_clock_t now, ts_offset;
   if (L.clock_inited == false)
     {
       init_clock();
@@ -57,10 +58,11 @@ static _clock_t time_offset()
   return ts_offset;
 }
 
-void print_time_elapsed()
+void ut_print_time_elapsed_impl(ut_logger_context_t *ctx, char *keyword)
 {
-  _clock_t elapsed = time_offset();
-  logger_info("elapsed time: %ld.%06ld\n", (long int)elapsed.tv_sec, (long int)elapsed.tv_usec);
+  ut_logger_context_t ut_ctx = *ctx;
+  ut_clock_t elapsed = time_offset();
+  ut_logger_info(ut_ctx, "[%s] elapsed time: %ld.%06ld\n", keyword, (long int)elapsed.tv_sec, (long int)elapsed.tv_usec);
 }
 
 /* msleep(): Sleep for the requested number of milliseconds. */
