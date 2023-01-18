@@ -6,6 +6,7 @@ extern "C"
 {
 #endif
 #include <logger.h>
+#include <network.h>
 
 
 typedef struct

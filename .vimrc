@@ -11,8 +11,8 @@ let g:EasyGrepRecursive=1
 " set your own custom ignore settings
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.o,tags
 let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\.git$\|\.hg$\|\.svn$\|bower_components$\|build$\|node_modules$\|project_files$\|test$|tags$',
-    \ 'file': '\.out$\|\.so$\|\.dll$\|\.out$|\.o$|tags$' }
+    \ 'dir':  '\.git$\|\.hg$\|\.svn$\|contrib$\|build$\|.xopt$\|node_modules$\|project_files$\|test$|tags$',
+    \ 'file': '\.out$\|\.so$\|\.dll$\|\.out$|\.o$|tags$|LICENSE' }
 " clean ctrlp cache
 " CtrlPClearCache
 " rm -rf ~/.cache/ctrlp/
@@ -56,7 +56,7 @@ endfunction
 " dont highlight inactive window
 let g:diminactive_use_colorcolumn = 0
 let g:ctrlp_clear_cache_on_exit = 1
-let g:tagbar_ctags_bin = "ctags"
+let g:tagbar_ctags_bin = "ctags-exuberant"
 let g:ycm_global_ycm_extra_conf=g:git_dir . '/.ycm_extra_conf.py'
 let g:ale_c_build_dir='./build'
 let g:ycm_log_level = 'debug'
@@ -104,3 +104,6 @@ set autochdir
 
 " set tags=xtags
 "set tags=/home/leeyg/develop/fs-raii-lib/tags
+
+nmap <leader>make :!cd .. && scons<cr>
+nmap <leader>mk :!cd .. && scons<cr>

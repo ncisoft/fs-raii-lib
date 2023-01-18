@@ -1,0 +1,32 @@
+[
+    {
+        "command": "clang -o build/core/osclock.o -c -g -std=gnu99 -Wall -Wno-unused-label -O2 -I./include -I./.xopt/include -I./ -Ibuild/.xopt/include build/core/osclock.c",
+        "directory": "/home/leeyg/develop/fs-raii-lib",
+        "file": "src/osclock.c",
+        "output": "build/core/osclock.o"
+    },
+    {
+        "command": "clang -o build/core/network.o -c -g -std=gnu99 -Wall -Wno-unused-label -O2 -I./include -I./.xopt/include -I./ -Ibuild/.xopt/include build/core/network.c",
+        "directory": "/home/leeyg/develop/fs-raii-lib",
+        "file": "src/network.c",
+        "output": "build/core/network.o"
+    },
+    {
+        "command": "clang -o tests/fs_raii-test.o -c -g -std=gnu99 -Wall -Wno-unused-label -O2 -I./include -I./.xopt/include -I./ -I.xopt/include tests/fs_raii-test.c",
+        "directory": "/home/leeyg/develop/fs-raii-lib",
+        "file": "tests/fs_raii-test.c",
+        "output": "tests/fs_raii-test.o"
+    },
+    {
+        "command": "clang -o tests/ipc-bus-server.o -c -g -std=gnu99 -Wall -Wno-unused-label -O2 -I./include -I./.xopt/include -I./ -I.xopt/include tests/ipc-bus-server.c",
+        "directory": "/home/leeyg/develop/fs-raii-lib",
+        "file": "tests/ipc-bus-server.c",
+        "output": "tests/ipc-bus-server.o"
+    },
+    {
+        "command": "clang -o tests/t.o -c -g -std=gnu99 -Wall -Wno-unused-label -O2 -I./include -I./.xopt/include -I./ -I.xopt/include tests/t.c",
+        "directory": "/home/leeyg/develop/fs-raii-lib",
+        "file": "tests/t.c",
+        "output": "tests/t.o"
+    }
+]

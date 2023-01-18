@@ -1,0 +1,10 @@
+clang
+%c -std=gnu99
+%cpp -std=c++11
+-Wall
+-Wno-unused-label
+-I./src/
+-I./include
+-I.xopt/include
+-I./utils/
+-I/usr/include/lua5.1

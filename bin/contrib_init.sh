@@ -12,7 +12,7 @@ else
   echo git submodule update --init --recursive .. clean
 fi
 
-if test -d $xopt_path/includee; then
+if test -d $xopt_path/include; then
   echo make contrib/* .. clean
   exit 0
 fi

@@ -9,7 +9,7 @@ from pprint import pprint
 
 
 props = Properties()
-fpath = 'scons.properties'
+fpath = 'lua.scons.properties'
 if os.path.exists(fpath):
     props.load(open(fpath))
 print(props['LUA'])
@@ -31,7 +31,7 @@ def generate(env):
         env['BUILDERS']['ctags'] = SCons.Builder.Builder(action=env.Action(complain_ctags))
 
 def find_ctags(env):
-    b=env.WhereIs('ctags')
+    b=env.WhereIs('ctags-exuberant')
     if b == None:
         print('Searching for ctags: not found. Tags will not be built')
     else:
@@ -45,7 +45,8 @@ def exists(env):
     return 1
 
 home_dir = os.environ['HOME']
-env = Environment(CCFLAGS=['-g', '-std=gnu99', '-Wall', '-Wno-unused-label',
+env = Environment(CC = 'clang',
+                  CCFLAGS=['-g', '-std=gnu99', '-Wall', '-Wno-unused-label',
                            '-O2',
                            '-I./include',
                            '-I./.xopt/include',
@@ -104,7 +105,12 @@ if not conf.CheckPKG('libcork'):
 #     env.ParseConfig('echo -I/opt/lua52/include/ -L/opt/lua52/lib/ -llua')
 # elif ARGUMENTS.get("LUA") == 'lua54':
 #    env.ParseConfig('echo -I/opt/lua54/include/ -L/opt/lua54/lib/ -llua')
-env.ParseConfig('pkg-config --cflags --libs libcork')
+# env.ParseConfig('pkg-config --cflags --libs libcork')
+env.ParseConfig('echo ./.xopt/lib/libcork.a')
+env.ParseConfig('echo -lev')
+env.Tool('compilation_db')
+cdb = env.CompilationDatabase('compile_database.json')
+
 generate(env)
 
 
@@ -122,5 +128,7 @@ for i, dep in enumerate(header_deps):
 env["header_deps"] = header_deps
 Export('env')
 Alias('tags', env.ctags(source='src/fs_raii.c', target='tags'))
+Alias('cdb', cdb)
+
 SConscript('src/SConstruct', variant_dir='build/core', exports='env')
 SConscript('tests/SConstruct', exports='env')
