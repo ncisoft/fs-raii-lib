@@ -27,32 +27,32 @@ option(WITH_STATIC "build with static libraries." ON)
 option(WITH_EMBEDDED_SRC "build with embedded src, tests source." ON)
 
 set(LIBCORK_SOURCE
-  libcork/src/libcork/cli/commands.c
-  libcork/src/libcork/core/allocator.c
-  libcork/src/libcork/core/error.c
-  libcork/src/libcork/core/gc.c
-  libcork/src/libcork/core/hash.c
-  libcork/src/libcork/core/ip-address.c
-  libcork/src/libcork/core/mempool.c
-  libcork/src/libcork/core/timestamp.c
-  libcork/src/libcork/core/u128.c
-  libcork/src/libcork/core/version.c
-  libcork/src/libcork/ds/array.c
-  libcork/src/libcork/ds/bitset.c
-  libcork/src/libcork/ds/buffer.c
-  libcork/src/libcork/ds/dllist.c
-  libcork/src/libcork/ds/file-stream.c
-  libcork/src/libcork/ds/hash-table.c
-  libcork/src/libcork/ds/managed-buffer.c
-  libcork/src/libcork/ds/ring-buffer.c
-  libcork/src/libcork/ds/slice.c
-  libcork/src/libcork/posix/directory-walker.c
-  libcork/src/libcork/posix/env.c
-  libcork/src/libcork/posix/exec.c
-  libcork/src/libcork/posix/files.c
-  libcork/src/libcork/posix/process.c
-  libcork/src/libcork/posix/subprocess.c
-  libcork/src/libcork/pthreads/thread.c
+  contrib/libcork/src/libcork/cli/commands.c
+  contrib/libcork/src/libcork/core/allocator.c
+  contrib/libcork/src/libcork/core/error.c
+  contrib/libcork/src/libcork/core/gc.c
+  contrib/libcork/src/libcork/core/hash.c
+  contrib/libcork/src/libcork/core/ip-address.c
+  contrib/libcork/src/libcork/core/mempool.c
+  contrib/libcork/src/libcork/core/timestamp.c
+  contrib/libcork/src/libcork/core/u128.c
+  contrib/libcork/src/libcork/core/version.c
+  contrib/libcork/src/libcork/ds/array.c
+  contrib/libcork/src/libcork/ds/bitset.c
+  contrib/libcork/src/libcork/ds/buffer.c
+  contrib/libcork/src/libcork/ds/dllist.c
+  contrib/libcork/src/libcork/ds/file-stream.c
+  contrib/libcork/src/libcork/ds/hash-table.c
+  contrib/libcork/src/libcork/ds/managed-buffer.c
+  contrib/libcork/src/libcork/ds/ring-buffer.c
+  contrib/libcork/src/libcork/ds/slice.c
+  contrib/libcork/src/libcork/posix/directory-walker.c
+  contrib/libcork/src/libcork/posix/env.c
+  contrib/libcork/src/libcork/posix/exec.c
+  contrib/libcork/src/libcork/posix/files.c
+  contrib/libcork/src/libcork/posix/process.c
+  contrib/libcork/src/libcork/posix/subprocess.c
+  contrib/libcork/src/libcork/pthreads/thread.c
 
         )
 # ...
@@ -88,11 +88,11 @@ elseif(CMAKE_C_COMPILER_ID STREQUAL "Intel")
   add_definitions(-Wall -Werror)
 endif(CMAKE_C_COMPILER_ID STREQUAL "GNU")
 
-include_directories(libcork/build/include)
-include_directories(libcork/include)
-include_directories(contrib/liblogger)
+include_directories(contrib/libcork/include)
+include_directories(contrib/libcork/build/include)
+include_directories(contrib/logger)
 include_directories(.xopt/include)
-include_directories(./include)
+include_directories(include)
 
 # 添加 math 子目录
 add_subdirectory(tests)

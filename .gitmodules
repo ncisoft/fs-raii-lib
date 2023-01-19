@@ -1,3 +1,6 @@
 [submodule "contrib/logger"]
 	path = contrib/logger
 	url = https://github.com/shiffthq/logger.git
+[submodule "contrib/libcork"]
+	path = contrib/libcork
+	url = https://github.com/ncisoft/libcork.git

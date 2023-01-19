@@ -1,15 +1,14 @@
-#include <unistd.h>
-#include <stdio.h>
-#include <fs_raii.h>
-#include <logger.h>
-#include <time.h>
 #include <errno.h>
-#include <sys/time.h>
+#include <stdlib.h>
+#include <logger.h>
+#include <stdio.h>
 #include <sys/select.h>
-#include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <time.h>
+#include <unistd.h>
 #include <utils.h>
-#define g_warning logger_debug
 
 struct sock_ev_serv {
   ev_io io;
