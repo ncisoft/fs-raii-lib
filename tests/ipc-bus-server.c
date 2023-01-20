@@ -1,3 +1,4 @@
+#include "libcork/ds/managed-buffer.h"
 #include <errno.h>
 #include <stdlib.h>
 #include <logger.h>
@@ -9,6 +10,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <utils.h>
+#include <libcork/ds.h>
 
 struct sock_ev_serv {
   ev_io io;
@@ -23,6 +25,9 @@ struct sock_ev_client {
   int index;
   struct sock_ev_serv* server;
 };
+struct {
+  struct cork_managed_buffer *buf;
+} L = {.buf = NULL};
 
 static void client_cb(EV_P_ ev_io *w, int revents)
 {
@@ -48,6 +53,9 @@ static void client_cb(EV_P_ ev_io *w, int revents)
     }
     return;
   }
+  if (strchr(str, '\n'))
+    logger_debug("socket client has not LF: %s\n", str);
+
   logger_debug("socket client said: %s\n", str);
 
   // Assuming that whenever a client is readable, it is also writable ?
@@ -85,6 +93,7 @@ static void server_init(struct sock_ev_serv* server, const char *host, int port)
   server->fd = sfd;
   ev_io_init(&server->io, server_cb, server->fd, EV_READ);
   ev_io_start(EV_A_ &server->io);
+
 }
 
 static void server_cb(EV_P_ ev_io *w, int revents)

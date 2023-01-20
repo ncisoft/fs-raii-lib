@@ -12,9 +12,11 @@
 #include <logger.h>
 #include <utils.h>
 
-static void die(int exit_code, const char *fmt, ...)
+void _die(ut_logger_context_t *ut_ctx, int exit_code, const char *fmt, ...)
 {
   va_list arg;
+  if (ut_ctx != NULL)
+    printf("%s:%s:%d ", ut_ctx->m_file, ut_ctx->m_func, ut_ctx->m_lineno);
   va_start(arg, fmt);
   vfprintf(stdout, fmt, arg);
   va_end(arg);
@@ -59,7 +61,7 @@ extern int tcp_bind(int fd, const char *host, short int port)
               addr->sin6_family = AF_INET6;
               LOGI("binding to outbound IPv6 addr: %s", host);
               */
-              die(1, "use IPv6\n");
+            die(1, "use IPv6\n");
               return 0;
           }
       }

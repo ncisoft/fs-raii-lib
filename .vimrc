@@ -92,7 +92,6 @@ let g:ale_c_incs = [
       \ './include/',
       \ './utils/',
       \ './.xopt/include',
-      \ './contrib/lua51-ext',
       \ '/usr/include/lua5.1'
       \]
 call SetupC99Incs()

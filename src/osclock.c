@@ -60,9 +60,8 @@ ut_clock_t time_offset()
 
 void ut_print_time_elapsed_impl(ut_logger_context_t *ctx, char *keyword)
 {
-  ut_logger_context_t ut_ctx = *ctx;
   ut_clock_t elapsed = time_offset();
-  ut_logger_info(ut_ctx, "[%s] elapsed time: %ld.%06ld\n", keyword, (long int)elapsed.tv_sec, (long int)elapsed.tv_usec);
+  ut_logger_info("[%s] elapsed time: %ld.%06ld\n", keyword, (long int)elapsed.tv_sec, (long int)elapsed.tv_usec);
 }
 
 /* msleep(): Sleep for the requested number of milliseconds. */
@@ -76,6 +75,7 @@ void msleep_usleep(long msec)
 {
   usleep(msec*1000);
 }
+
 int msleep(long msec)
 {
   struct timespec ts;
