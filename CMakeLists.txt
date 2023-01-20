@@ -9,6 +9,17 @@ set(IPCBUS_VERSION ${RTAGS_VERSION_MAJOR}.${RTAGS_VERSION_MINOR}.${RTAGS_VERSION
 set(IPCBUS_BINARY_ROOT_DIR ${PROJECT_BINARY_DIR})
 # aux_source_directory(. DIR_SRCS)
 
+list (APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+INCLUDE (${CMAKE_ROOT}/Modules/CheckFunctionExists.cmake)
+configure_file(
+    ./include/config/config.h.in
+    ../include/config/config.h
+    )
+check_function_exists(vfork HAVE_VFORK)
+check_function_exists(socket HAVE_SOCKET)
+
+
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CC 99)
 set(CMAKE_CC True)
@@ -89,7 +100,7 @@ elseif(CMAKE_C_COMPILER_ID STREQUAL "Intel")
 endif(CMAKE_C_COMPILER_ID STREQUAL "GNU")
 
 include_directories(contrib/libcork/include)
-include_directories(contrib/libcork/build/include)
+#include_directories(contrib/libcork/build/include)
 include_directories(contrib/logger)
 include_directories(.xopt/include)
 include_directories(include)

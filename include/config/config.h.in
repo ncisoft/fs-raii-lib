@@ -1,0 +1,2 @@
+#cmakedefine HAVE_VFORK @VFORK_FOUND@
+#cmakedefine HAVE_SOCKET @SOCKET_FOUND@

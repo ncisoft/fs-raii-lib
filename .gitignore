@@ -39,5 +39,6 @@ config.log
 .xinit_done
 .xopt/*
 include/snippet/*.h
+include/config/config.h
 .cache/*
 .ccls-cache/*

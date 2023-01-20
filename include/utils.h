@@ -5,9 +5,9 @@
 extern "C"
 {
 #endif
+#include <config/config.h>
 #include <logger.h>
 #include <network.h>
-#include <buffer.h>
 
 #ifndef cast
 #define cast(t, exp)  ((t)(exp))
@@ -63,7 +63,7 @@ ut_logger_context_t_init;             \
 #define ut_print_time_elapsed(keyword)                                         \
   do {                                                                         \
     ut_logger_context_t_init(ut_ctx);                                          \
-    ut_print_time_elapsed_impl(&ut_ctx, keyword);                                 \
+    ut_print_time_elapsed_impl(&ut_ctx, keyword);                              \
   } while (0)
 
 #ifdef __cplusplus
