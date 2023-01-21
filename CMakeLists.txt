@@ -14,8 +14,8 @@ INCLUDE (${CMAKE_ROOT}/Modules/CheckFunctionExists.cmake)
 INCLUDE (${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
 
 configure_file(
-  ${PROJECT_SOURCE_DIR}/include/config/config.h.in
-  ${PROJECT_SOURCE_DIR}/include/config/config.h
+  ${PROJECT_SOURCE_DIR}/include/config.h.in
+  ${PROJECT_SOURCE_DIR}/include/ipc-bus-config.h
 )
 
 check_function_exists(vfork HAVE_VFORK)

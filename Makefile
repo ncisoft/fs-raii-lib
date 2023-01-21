@@ -5,7 +5,7 @@ help:
 	@echo "Usage: make help | init | build | clean | run"
 	@echo ""
 
-clean:
+clean: init
 	scons -c
 	rm -rf build
 	@mkdir -p ./build
@@ -17,7 +17,7 @@ init:
 	@cd ./build && cmake .. && cmake ..
 
 
-build:
+build: init
 	@mkdir -p build
 	cd build && cmake ..
 	make -C ./build -j4
