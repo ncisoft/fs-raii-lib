@@ -10,11 +10,20 @@ set(IPCBUS_BINARY_ROOT_DIR ${PROJECT_BINARY_DIR})
 # aux_source_directory(. DIR_SRCS)
 
 list (APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-INCLUDE (${CMAKE_ROOT}/Modules/CheckFunctionExists.cmake)
+#INCLUDE (${CMAKE_ROOT}/Modules/CheckFunctionExists.cmake)
 INCLUDE (${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
+include(CheckCSourceCompiles)
+include(CheckFunctionExists)
+include(CheckIncludeFiles)
+include(CheckLibraryExists)
+include(CheckStructHasMember)
+include(CheckSymbolExists)
+include(CMakePackageConfigHelpers)
+include(GNUInstallDirs)
+
 
 configure_file(
-  ${PROJECT_SOURCE_DIR}/include/config.h.in
+  ${PROJECT_SOURCE_DIR}/include/config.h.cmake
   ${PROJECT_SOURCE_DIR}/include/ipc-bus-config.h
 )
 
@@ -22,6 +31,11 @@ check_function_exists(vfork HAVE_VFORK)
 check_function_exists(vfork HAVE_FORK)
 check_function_exists(socket HAVE_SOCKET)
 test_big_endian(WORDS_BIGENDIAN)
+check_type_size(pid_t HAVE_PID_T)
+check_type_size(uint32_t HAVE_UINT32_T)
+check_type_size(uint HAVE_UINT)
+check_type_size(uint_t HAVE_UINT_T)
+
 
 if(CMAKE_C_COMPILER_ID MATCHES GNU)
   set(CMAKE_C_FLAGS         "${CMAKE_C_FLAGS} -Wall -Wno-unknown-pragmas -Wno-sign-compare -Wwrite-strings -Wno-unused -Wno-format-overflow")

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <fs_raii.h>
 #include <logger.h>
 #include <time.h>
@@ -6,13 +7,14 @@
 #include <sys/time.h>
 #include <sys/select.h>
 #include <utils.h>
+#include <stdint.h>
 
 typedef struct timeval ut_clock_t;
 
 static struct
 {
   bool clock_inited ;
-  u_int clock_counter;
+  uint32_t clock_counter;
   ut_clock_t start_t;
 } L =
 {
