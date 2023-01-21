@@ -5,9 +5,9 @@
 extern "C"
 {
 #endif
-#include <config/config.h>
+#include <ipc-bus/config.h>
 #include <logger.h>
-#include <network.h>
+#include <ipc-bus/network.h>
 
 #ifndef cast
 #define cast(t, exp)  ((t)(exp))

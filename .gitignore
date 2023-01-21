@@ -39,7 +39,8 @@ config.log
 .xinit_done
 .xopt/*
 include/snippet/*.h
-include/ipc-bus-config.h
+include/ipc-bus/config.h
 .cache/*
 .ccls-cache/*
+.clangd
 */*#*

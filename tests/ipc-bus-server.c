@@ -9,7 +9,7 @@
 #include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
-#include <utils.h>
+#include <ipc-bus/utils.h>
 #include <libcork/ds.h>
 
 struct sock_ev_serv {

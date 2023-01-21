@@ -24,21 +24,35 @@ include(GNUInstallDirs)
 
 configure_file(
   ${PROJECT_SOURCE_DIR}/include/config.h.cmake
-  ${PROJECT_SOURCE_DIR}/include/ipc-bus-config.h
+  ${PROJECT_SOURCE_DIR}/include/ipc-bus/config.h
 )
 
 check_function_exists(vfork HAVE_VFORK)
 check_function_exists(vfork HAVE_FORK)
 check_function_exists(socket HAVE_SOCKET)
+check_function_exists(bzero HAVE_BZERO)
+
 test_big_endian(WORDS_BIGENDIAN)
 check_type_size(pid_t HAVE_PID_T)
 check_type_size(uint32_t HAVE_UINT32_T)
+check_type_size(uint16_t HAVE_UINT16_T)
+check_type_size(uhort HAVE_USHORT)
 check_type_size(uint HAVE_UINT)
 check_type_size(uint_t HAVE_UINT_T)
 
 
+set(FLAGS
+  "${CMAKE_C_FLAGS}"
+  "-Wall -Wno-unknown-pragmas"
+  "-Wno-sign-compare"
+  "-Wwrite-strings"
+  "-Wno-unused"
+  "-Wno-format-overflow"
+)
+list(JOIN FLAGS " " FLAGS2)
+
 if(CMAKE_C_COMPILER_ID MATCHES GNU)
-  set(CMAKE_C_FLAGS         "${CMAKE_C_FLAGS} -Wall -Wno-unknown-pragmas -Wno-sign-compare -Wwrite-strings -Wno-unused -Wno-format-overflow")
+  set(CMAKE_C_FLAGS         "${FLAGS2}")
   set(CMAKE_C_FLAGS_DEBUG   "-O0 -g3")
   set(CMAKE_C_FLAGS_RELEASE "-O3")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
@@ -131,7 +145,7 @@ endif(CMAKE_C_COMPILER_ID STREQUAL "GNU")
 include_directories(contrib/libcork/include)
 #include_directories(contrib/libcork/build/include)
 include_directories(contrib/logger)
-include_directories(.xopt/include)
+#include_directories(.xopt/include)
 include_directories(include)
 
 # 添加 math 子目录

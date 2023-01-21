@@ -14,6 +14,16 @@ find_library(LIBEV libev.a)
 # Dependencies we need for static and shared
 endif ()
 
+set(T_SOURCE
+  t.c
+        )
+
+if (WITH_STATIC)
+find_library(LIBEV libev.a)
+
+# Dependencies we need for static and shared
+endif ()
+
 find_library(LIBEV_SHARED ev)
 
 
@@ -22,6 +32,7 @@ if (WITH_STATIC)
 # Static
 # By default we use normal name for static, all shared targets will add a `-shared' suffix
 add_executable(ipc-bus-server ${IPCBUS_SOURCE})
+add_executable(t.exe ${T_SOURCE})
 
 target_link_libraries(ipc-bus-server
   logger
