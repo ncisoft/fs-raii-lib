@@ -42,3 +42,4 @@ include/snippet/*.h
 include/config/config.h
 .cache/*
 .ccls-cache/*
+*/*#*

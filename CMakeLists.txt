@@ -11,14 +11,29 @@ set(IPCBUS_BINARY_ROOT_DIR ${PROJECT_BINARY_DIR})
 
 list (APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 INCLUDE (${CMAKE_ROOT}/Modules/CheckFunctionExists.cmake)
+INCLUDE (${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
+
 configure_file(
-    ./include/config/config.h.in
-    ../include/config/config.h
-    )
+  ${PROJECT_SOURCE_DIR}/include/config/config.h.in
+  ${PROJECT_SOURCE_DIR}/include/config/config.h
+)
+
 check_function_exists(vfork HAVE_VFORK)
+check_function_exists(vfork HAVE_FORK)
 check_function_exists(socket HAVE_SOCKET)
+test_big_endian(WORDS_BIGENDIAN)
 
+if(CMAKE_C_COMPILER_ID MATCHES GNU)
+  set(CMAKE_C_FLAGS         "${CMAKE_C_FLAGS} -Wall -Wno-unknown-pragmas -Wno-sign-compare -Wwrite-strings -Wno-unused -Wno-format-overflow")
+  set(CMAKE_C_FLAGS_DEBUG   "-O0 -g3")
+  set(CMAKE_C_FLAGS_RELEASE "-O3")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
+endif()
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+  set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+  message(STATUS "optional:-std=c++11")
+endif(CMAKE_COMPILER_IS_GNUCXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CC 99)
@@ -27,7 +42,7 @@ set(CMAKE_CC True)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99  ")
 #option(USE_DEBUG "Use DEBUG" ON)
 if (NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Debug)
+  set(CMAKE_BUILD_TYPE Release)
 endif ()
 # Detect linux
 if (UNIX AND NOT APPLE)

@@ -1,2 +1,4 @@
 #cmakedefine HAVE_VFORK @VFORK_FOUND@
+#cmakedefine HAVE_FORK @FORK_FOUND@
 #cmakedefine HAVE_SOCKET @SOCKET_FOUND@
+#cmakedefine WORDS_BIGENDIAN
