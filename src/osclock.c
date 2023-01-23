@@ -1,13 +1,13 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <fs_raii.h>
-#include <logger.h>
-#include <time.h>
 #include <errno.h>
-#include <sys/time.h>
-#include <sys/select.h>
-#include <ipc-bus/utils.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <sys/time.h>
+#include <time.h>
+#include <unistd.h>
+
+#include <fs_raii.h>
+#include <ipc-bus/utils.h>
 
 typedef struct timeval ut_clock_t;
 

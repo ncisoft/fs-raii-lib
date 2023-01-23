@@ -121,7 +121,7 @@ print(Dir('.').abspath)
 print(Dir('#').abspath)
 top_dir = Dir('.').abspath
 
-header_deps = ['include/utils.h', 'include/fs_raii.h']
+header_deps = ['include/ipc-bus/utils.h', 'include/fs_raii.h']
 for i, dep in enumerate(header_deps):
     header_deps[i] = top_dir + "/" + dep
 

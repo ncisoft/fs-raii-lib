@@ -6,8 +6,9 @@ help:
 	@echo ""
 
 clean: init
-	rm -rf build
+	rm -rf ./build
 	@mkdir -p ./build
+	@rm -rf build/CMakeFiles ./build/Makefile
 	cd build && cmake .. && cmake ..
 
 cmake:
@@ -20,10 +21,10 @@ init:
 	@cd ./build && cmake .. && cmake ..
 
 
-build: init
+build:
 	@mkdir -p build
-	cd build && cmake ..
-	make -C ./build -j4
+	cd build && cmake .. && cmake ..
+	make -C ./build -j$(nproc)
 
 build-verbose: init
 	@mkdir -p build

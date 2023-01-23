@@ -20,7 +20,7 @@ def dump_list(name):
 topdir=Dir('#').abspath
 # env.ParseConfig('echo -I' + topdir + "/.xopt/include")
 
-lib_sources=['osclock.c', './network.c']
+lib_sources=['osclock.c', './network.c', './fork.c', 'buffer.c']
 env.StaticLibrary(target=topdir + '/build/core', source=lib_sources)
 header_deps = env["header_deps"]
 env.Depends(topdir + '/build/libcore.a', header_deps)

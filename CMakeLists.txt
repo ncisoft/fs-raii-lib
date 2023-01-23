@@ -29,15 +29,19 @@ configure_file(
 
 check_function_exists(vfork HAVE_VFORK)
 check_function_exists(vfork HAVE_FORK)
-check_function_exists(socket HAVE_SOCKET)
+check_function_exists(popen HAVE_POPEN)
 check_function_exists(bzero HAVE_BZERO)
 
 test_big_endian(WORDS_BIGENDIAN)
 check_type_size(pid_t HAVE_PID_T)
 check_type_size(uint32_t HAVE_UINT32_T)
 check_type_size(uint16_t HAVE_UINT16_T)
+check_type_size(uchar HAVE_UCHAR)
 check_type_size(uhort HAVE_USHORT)
 check_type_size(uint HAVE_UINT)
+check_type_size(ulong HAVE_ULONG)
+check_type_size(ulonglong HAVE_ULONGLONG)
+
 check_type_size(uint_t HAVE_UINT_T)
 
 
@@ -54,7 +58,7 @@ list(JOIN FLAGS " " FLAGS2)
 if(CMAKE_C_COMPILER_ID MATCHES GNU)
   set(CMAKE_C_FLAGS         "${FLAGS2}")
   set(CMAKE_C_FLAGS_DEBUG   "-O0 -g3")
-  set(CMAKE_C_FLAGS_RELEASE "-O3")
+  set(CMAKE_C_FLAGS_RELEASE "-O")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
@@ -127,6 +131,8 @@ endif ()
 set(LIBCORE_SOURCE
   src/osclock.c
   src/network.c
+  src/network.c
+  src/fork.c
   )
 if (WITH_STATIC)
     add_library(core STATIC ${LIBCORE_SOURCE})

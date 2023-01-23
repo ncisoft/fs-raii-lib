@@ -9,8 +9,8 @@
 #include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
-#include <ipc-bus/utils.h>
 #include <libcork/ds.h>
+#include <ipc-bus/utils.h>
 
 struct sock_ev_serv {
   ev_io io;

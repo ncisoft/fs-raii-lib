@@ -57,10 +57,13 @@ endfunction
 let g:diminactive_use_colorcolumn = 0
 let g:ctrlp_clear_cache_on_exit = 1
 let g:tagbar_ctags_bin = "ctags-exuberant"
-let g:ycm_global_ycm_extra_conf=g:git_dir . '/.ycm_extra_conf.py'
-let g:ale_c_build_dir='./build'
-let g:ycm_log_level = 'debug'
-let g:ycm_use_clangd = 0
+"""let g:ycm_global_ycm_extra_conf=g:git_dir . '/.ycm_extra_conf.py'
+let g:ale_c_build_dir=g:git_dir . './build'
+let comment1 = "ALE will first search for the nearest compile_commands.json file, and then look for compile_commands.json"
+let comment2 = " files in the directories for"
+let g:ale_c_build_dir_names = g:git_dir . "./build"
+"let g:ycm_log_level = 'debug'
+"let g:ycm_use_clangd = 0
 let g:ale_linter_aliases = { 'h': 'c'  }
 let g:ale_linters = {'c': ['clang'], 'lua': ['luac'], 'cpp': ['clang'], 'python': ['flake8', 'pylint']}
 
@@ -69,32 +72,16 @@ nmap <leader><space> :FixWhitespace<cr>
 set directory=$HOME/tmp/dirty
 
 function! Help()
-  echo "nmap <leader>yl :YcmDebugInfo<cr>"
-  echo "nmap <leader>yr :YcmRestartServer<cr>"
-  echo "nmap <leader>yd :YcmDiags<cr>"
-  echo "nmap <leader>ai :ALEInfo<cr>"
+  echo "nmap <leader>ale :ALEInfo<cr>"
   echo "nmap <leader><space> :FixWhitespace<cr>"
-  echo "nmap <leader>yi :call ShowIncs()<cr>"
   echo "nmap <leader>yh :call help()<cr>"
 endfunction
 
 set directory=$HOME/tmp/dirty
-nmap <leader>yl :YcmDebugInfo<cr>
-nmap <leader>yr :YcmRestartServer<cr>
-nmap <leader>yale :ALEInfo<cr>
 nmap <leader><space> :FixWhitespace<cr>
-nmap <leader>yi :call ShowIncs()<cr>
 nmap <leader>yh :call Help()<cr>
+nmap <leader>yale :ALEInfo<cr>
 
-let g:ale_c_incs = [
-      \ '.',
-      \ './src/',
-      \ './include/',
-      \ './utils/',
-      \ './.xopt/include',
-      \ '/usr/include/lua5.1'
-      \]
-call SetupC99Incs()
 " let g:git_path = system("git rev-parse --show-toplevel 2>/dev/null")
 " let g:git_dir = substitute(g:git_path, '\n', '', '')
 "let git_vimrc = substitute(g:git_path, '\n', '', '') . "/.vimrc"

@@ -18,6 +18,10 @@ set(T_SOURCE
   t.c
         )
 
+set(TYPES-TEST_SOURCE
+  types-test.c
+        )
+
 if (WITH_STATIC)
 find_library(LIBEV libev.a)
 
@@ -31,8 +35,18 @@ if (WITH_STATIC)
 # ------------------------------------------------------------------
 # Static
 # By default we use normal name for static, all shared targets will add a `-shared' suffix
+
+set(_STDLIBS
+  logger
+  core
+  ev
+  cork
+)
+list(JOIN _STDLIBS " " STDLIBS)
+
 add_executable(ipc-bus-server ${IPCBUS_SOURCE})
 add_executable(t.exe ${T_SOURCE})
+add_executable(types-test.exe ${TYPES-TEST_SOURCE})
 
 target_link_libraries(ipc-bus-server
   logger
@@ -40,6 +54,13 @@ target_link_libraries(ipc-bus-server
   ev
   cork
 )
+
+target_link_libraries(t.exe "${_STDLIBS}"
+)
+
+target_link_libraries(types-test.exe "${_STDLIBS}"
+)
+
 endif ()
 
 # ------------------------------------------------------------------

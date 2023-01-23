@@ -9,7 +9,7 @@
 #include <arpa/inet.h>
 #include <arpa/inet.h>
 #include <libcork/core.h>
-#include <logger.h>
+
 #include <ipc-bus/utils.h>
 
 void _die(ut_logger_context_t *ut_ctx, int exit_code, const char *fmt, ...)

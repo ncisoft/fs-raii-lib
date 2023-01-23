@@ -1,18 +1,26 @@
 #pragma once
 
 #include <sys/time.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <signal.h>
+#include <errno.h>
+
 #ifdef __cplusplus
 extern "C"
 {
 #endif
+
 #include <ipc-bus/config.h>
 #include <logger.h>
+#include <ipc-bus/types.h>
+#include <ipc-bus/buffer.h>
 #include <ipc-bus/network.h>
+#include <ipc-bus/fork.h>
 
 #ifndef cast
 #define cast(t, exp)  ((t)(exp))
 #endif
-
 
 typedef struct {
     const char *m_file;
