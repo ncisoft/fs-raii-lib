@@ -1,6 +1,8 @@
+#include <bits/stdint-uintn.h>
 #include <errno.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <string.h>
 #include <sys/select.h>
 #include <sys/time.h>
 #include <time.h>
@@ -97,4 +99,25 @@ int msleep(long msec)
   } while (res && errno == EINTR);
 
   return res;
+}
+
+void _ut_shorten_filename(ut_logger_context_t *ut_ctx) {
+  char delimiter = '/';
+  const char *cp_head = ut_ctx->m_file;
+  char *cp = strrchr(cp_head, delimiter);
+  if (cp != NULL) {
+    cp --;
+    while (cp >= cp_head && *cp != delimiter) {
+      cp--;
+    }
+    cp++;
+    ut_ctx->m_file = cp;
+  }
+}
+/**
+* convert pid_t to uint32_t, prevent platform differences
+*/
+uint32_t ut_pid_t_convert_uint32(pid_t pid) {
+  return cast(uint32_t, pid);
+  // padding
 }

@@ -33,6 +33,10 @@ typedef unsigned int uint;
 typedef uint64_t ulong;
 #endif
 
+#ifndef HAVE_VOIDPTR
+typedef void* voidptr ;
+#endif
+
 #ifndef HAVE_ULONGLONG
 typedef uint64_t ulonglong;
 #endif

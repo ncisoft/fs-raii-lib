@@ -41,6 +41,7 @@ check_type_size(uhort HAVE_USHORT)
 check_type_size(uint HAVE_UINT)
 check_type_size(ulong HAVE_ULONG)
 check_type_size(ulonglong HAVE_ULONGLONG)
+check_type_size(voidptr HAVE_VOIDPTR)
 
 check_type_size(uint_t HAVE_UINT_T)
 
@@ -52,13 +53,14 @@ set(FLAGS
   "-Wwrite-strings"
   "-Wno-unused"
   "-Wno-format-overflow"
+  "-Wno-unused-variable"
 )
 list(JOIN FLAGS " " FLAGS2)
 
 if(CMAKE_C_COMPILER_ID MATCHES GNU)
   set(CMAKE_C_FLAGS         "${FLAGS2}")
-  set(CMAKE_C_FLAGS_DEBUG   "-O0 -g3")
-  set(CMAKE_C_FLAGS_RELEASE "-O")
+  set(CMAKE_C_FLAGS_DEBUG   "-O3 -g3")
+  set(CMAKE_C_FLAGS_RELEASE "-O3")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
@@ -133,6 +135,8 @@ set(LIBCORE_SOURCE
   src/network.c
   src/network.c
   src/fork.c
+  src/raw-raii.c
+  src/mpool.c
   )
 if (WITH_STATIC)
     add_library(core STATIC ${LIBCORE_SOURCE})

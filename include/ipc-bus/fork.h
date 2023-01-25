@@ -13,6 +13,8 @@ extern "C"
 typedef struct fork_ctx {
   char *cmdline;
   char *args;
+  pid_t wait_child_pid;
+  int channel_fd;
 
 } fork_ctx_t;
 ;

@@ -1,7 +1,8 @@
 {
     "recommendations": [
-        "ccls-project.ccls",
         "llvm-vs-code-extensions.vscode-clangd",
-        "notskm.clang-tidy"
+        "notskm.clang-tidy",
+        "wayou.vscode-todo-highlight",
+        "mateuszdrewniak.theme-dracula-dark-plus"
     ]
 }

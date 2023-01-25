@@ -11,6 +11,7 @@
 #cmakedefine HAVE_UINT @HAVE_UINT@
 #cmakedefine HAVE_ULONG @HAVE_ULONG@
 #cmakedefine HAVE_ULONGLONG @HAVE_ULONGLON@
+#cmakedefine HAVE_VOIDPTR @HAVE_VOIDPTR@
 
 
 #cmakedefine HAVE_UINT_T

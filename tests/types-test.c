@@ -1,7 +1,8 @@
-#include <ipc-bus/types.h>
-#include <ipc-bus/utils.h>
 #include <stdint.h>
 #include <stdio.h>
+
+#include <ipc-bus/types.h>
+#include <ipc-bus/utils.h>
 
 // typedef unsigned int uint;
 
@@ -10,17 +11,27 @@
  }
 
  void printf_ulong64(const char*name, uint64_t v) {
-    printf("%-9s= %lux\n", name, v);
+    printf("%-9s= 0x%lX\n", name, v);
  }
+
+void clean_up(int *final_value)
+{
+  printf("Cleaning up\n");
+  printf("Final value: %d\n",*final_value);
+
+}
 
 int main()
 {
-  uint8_t uc;
-  uint ui;
+  uchar uc;
   ushort us;
+  uint ui;
   uint32_t i;
   ulong ul;
-
+  declare_voidptr(buf) = malloc(888);
+  declare_fd(fd);
+  nop(buf);
+  fd = open("/tmp/0.bin", O_RDONLY,0777);
 
   logger_init(NULL, LOGGER_LEVEL_DEBUG);
 
@@ -31,10 +42,13 @@ int main()
   printf_int("ulong", sizeof_to_int(ul));
   printf_int("ulonglong", sizeof_to_int(ulonglong));
   printf_int("size_t", (int)sizeof(size_t));
+  printf_int("pid_t", (int)sizeof(pid_t));
   printf_int("BUFSIZ", BUFSIZ);
 
   printf_ulong64("SIZE_MAX", SIZE_MAX);
   puts("");
+  ut_logger_debug("buf=%p\n", buf);
+
 
   return 0;
 }

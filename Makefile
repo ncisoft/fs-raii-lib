@@ -1,5 +1,5 @@
 .PHONY : help init xinit clean build rebuild run
-.PHONY : sync cmake build-verbose
+.PHONY : sync cmake build-verbose ctags
 
 help:
 	@echo "Usage: make help | init | build | clean | run"
@@ -25,11 +25,14 @@ build:
 	@mkdir -p build
 	cd build && cmake .. && cmake ..
 	make -C ./build -j$(nproc)
+	/usr/bin/ctags-exuberant --tag-relative=yes --langmap=c:.c.h -f tags src/*.[hc] tests/*.[hc] .xopt/include/*.h
 
 build-verbose: init
 	@mkdir -p build
 	cd build && cmake ..
 	make -C ./build VERBOSE=1
 
+ctags: build
+	/usr/bin/ctags-exuberant --tag-relative=yes --langmap=c:.c.h -f tags src/*.[hc] tests/*.[hc] .xopt/include/*.h
 run: build
 	./build/tests/ipc-bus-server
