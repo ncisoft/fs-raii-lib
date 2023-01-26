@@ -13,9 +13,13 @@ extern "C"
 typedef struct fork_ctx {
   char *cmdline;
   char *args;
-  pid_t wait_child_pid;
+  struct {
+  pid_t pid;
+  bool is_exit;
+  } wait_proc, eccel_proc;
   int channel_fd;
-
+  uint32_t timeout;
+  bool is_channel_closed;
 } fork_ctx_t;
 ;
 extern fork_ctx_t *fork_ctx_t_run(const char *cmd_path, const char *args);

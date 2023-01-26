@@ -1,3 +1,5 @@
+#include "ipc-bus/memory-pool.h"
+#include <errno.h>
 #include <ipc-bus/utils.h>
 #include <signal.h>
 #include <stdbool.h>
@@ -61,7 +63,7 @@ static inline int pipe_get_write_fd(int *fd_pair) {
 static int open_tmp_file() {
   if (L.tmp_file_fd != 0)
     return L.tmp_file_fd;
-  int fd = open("/tmp/0.bin", O_CREAT | O_TRUNC | O_RDWR, 00644);
+  int fd = open("/tmp/0.bin", O_CREAT | O_TRUNC | O_RDWR);
   if (fd != -1) {
     L.tmp_file_fd = fd;
     return fd;
@@ -69,6 +71,16 @@ static int open_tmp_file() {
   die(1, "open tmp-file fail\n");
   return 0;
 }
+static inline ssize_t xpipe_read(int fd, void *buf, size_t len) {
+  ssize_t read_len;
+  read_len = read(fd, buf, len);
+  if (read_len == -1)
+    ut_logger_warn(TAG_XPIPE " read:::%s\n", strerror(errno));
+  ut_logger_warn(TAG_XPIPE "read.fd=%d, len= %lld\n", fd, read_len);
+  //ut_dump_hex(TAG_XPIPE,buf, len);
+  return read_len;
+}
+
 static ssize_t xpipe_read_str(int fd, void *buf, size_t len) {
   ssize_t read_len;
   char *cp = cast(char *, buf);
@@ -79,24 +91,18 @@ static ssize_t xpipe_read_str(int fd, void *buf, size_t len) {
   return read_len;
 }
 
-static inline ssize_t xpipe_read(int fd, void *buf, size_t len) {
-  ssize_t read_len;
-  read_len = read(fd, buf, len);
-  if (read_len == -1)
-    ut_logger_warn(TAG_XPIPE " read:::%s\n", strerror(errno));
-  ut_logger_warn(TAG_XPIPE "read.fd=%d, len= %lld\n", fd, read_len);
-  return read_len;
-}
-
 static inline ssize_t xpipe_write(int pipe_fd, void *buf, size_t len) {
   int tmp_file_fd = open_tmp_file();
   ssize_t write_len;
+  ut_logger_debug("len=%lu\n", len);
   write_len = write(pipe_fd, buf, len);
   write_len = write(tmp_file_fd, buf, len);
   if (write_len == -1) {
     ut_logger_warn(TAG_XPIPE "write:::%s\n", strerror(errno));
   }
-   ut_logger_debug(TAG_XPIPE "write.fd=%d, len= %lld\n",pipe_fd, write_len);
+  ut_logger_debug(TAG_XPIPE "pipe_fd=%d, write.fd=%d, len= %lld\n", pipe_fd,
+                  tmp_file_fd, write_len);
+  ut_dump_hex(TAG_XPIPE, buf, len);
   return write_len;
 }
 
@@ -221,7 +227,13 @@ fork_ctx_t *fork_ctx_t_run(const char *cmd_path, const char *args) {
       ut_logger_debug(TAG_WAIT "execl.return.len=%d\n", read_len);
       if (read_len != -1) {
         buf[read_len] = '\0';
-        ut_logger_debug(TAG_WAIT " execl.return.msg = %s\n", buf);
+        ut_logger_debug(TAG_WAIT " execl.return_msg = %s\n", buf);
+        read_len = 0;
+      }
+      else {
+        ut_logger_debug(TAG_WAIT " execl.return_msg.error = %s\n", strerror(errno));
+        ut_assert(errno == 0);
+        read_len = 0;
       }
       //  step-3: write msg
       xpipe_write_str(wait_channel_fd, buf, strlen(buf));
@@ -236,7 +248,7 @@ fork_ctx_t *fork_ctx_t_run(const char *cmd_path, const char *args) {
     int wait_channel_fd = pipe_get_read_fd(pipefd_wait_fork);
     int child_rc = 111;
     close(pipe_get_write_fd(pipefd_wait_fork));
-    ctx->wait_child_pid = wait_child_pid;
+    ctx->wait_proc.pid = wait_child_pid;
     ctx->channel_fd = wait_channel_fd;
 
     ut_logger_debug(TAG_TOP "rc=%d\n", child_rc);
@@ -251,23 +263,24 @@ fork_ctx_t *fork_ctx_t_run(const char *cmd_path, const char *args) {
                     cmd_path, args, child_rc);
     // TODO: top process
     {
-      uint32_t uint32_excel_pid, uint32_pid;
+      uint32_t uint32_excel_pid, uint32_pid, uint32_excel_exit_code;
       uint32_t excel_rc;
-      int wait_status;
 
       int read_len;
       uint32_excel_pid = 0;
       // step-1: read excel pid
       read_len = xpipe_read(wait_channel_fd, &uint32_excel_pid, sizeof(uint32_pid));
+      ctx->eccel_proc.pid = uint32_excel_pid;
       ut_logger_warn(TAG_TOP "  top.pid=%d\n", getpid());
       ut_logger_warn(TAG_TOP "execl.pid=0x%X, %d\n", uint32_excel_pid,uint32_excel_pid);
       ut_logger_warn(TAG_TOP " wait.pid=%d\n", wait_child_pid);
-      ut_logger_debug(TAG_TOP "len = %d, excel_pid = %d, err=%s\n", read_len,
-                      uint32_excel_pid, strerror(errno));
       // step-2: read excel exit code
       read_len = xpipe_read(wait_channel_fd, &excel_rc, sizeof(excel_rc));
+uint32_excel_exit_code = cast(uint32_t, excel_rc);
+      ut_logger_debug(TAG_TOP "len = %d, excel_pid = %d, excel_rc=%d\n", read_len,
+                      uint32_excel_pid, uint32_excel_exit_code);
       ut_logger_debug(TAG_TOP "len = %d, excel_exit_code = %d, err=%s\n",
-                      read_len, uint32_excel_pid, strerror(errno));
+                      read_len, excel_rc, strerror(errno));
     }
     while (true) {
       char buf[BUFSIZ];

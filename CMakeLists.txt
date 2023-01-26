@@ -34,6 +34,7 @@ check_function_exists(bzero HAVE_BZERO)
 
 test_big_endian(WORDS_BIGENDIAN)
 check_type_size(pid_t HAVE_PID_T)
+check_type_size(uint64_t HAVE_UINT64_T)
 check_type_size(uint32_t HAVE_UINT32_T)
 check_type_size(uint16_t HAVE_UINT16_T)
 check_type_size(uchar HAVE_UCHAR)

@@ -7,7 +7,7 @@ extern mempool_t *mp_init(mempool_t *mpool, size_t capacity)
   memset(mpool, '\0', sizeof(mempool_t));
   mpool->m_capacity = capacity;
   mpool->mp = calloc(1, capacity);
-  assert(mpool->mp != NULL);
+  ut_assert(mpool->mp != NULL);
   return mpool;
 }
 
@@ -22,7 +22,7 @@ void *mp_malloc(mempool_t *pool, size_t size)
 {
   if ((size+pool->m_used+sizeof(mpool_item_t)) < pool->m_capacity)
     {
-      assert("Insufficient pool memory" == NULL);
+      ut_assert("Insufficient pool memory" == NULL);
       exit(1);
     }
   mpool_item_t *item = cast(mpool_item_t *, pool->mp);

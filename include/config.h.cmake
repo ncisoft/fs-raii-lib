@@ -1,9 +1,13 @@
+#undef IPC_BUS_DEBUG
+#define IPC_BUS_DEBUG
+
 #cmakedefine HAVE_VFORK @VFORK_FOUND@
 #cmakedefine HAVE_BZERO
 #cmakedefine HAVE_FORK @FORK_FOUND@
 #cmakedefine HAVE_POPEN
 #cmakedefine WORDS_BIGENDIAN
 
+#cmakedefine HAVE_UINT64_T @HAVE_UINT64_T@
 #cmakedefine HAVE_UINT32_T @HAVE_UINT32_T@
 #cmakedefine HAVE_UINT16_T @HAVE_UINT16_T@
 #cmakedefine HAVE_UCHAR @HAVE_UCHAR@

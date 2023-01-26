@@ -11,7 +11,11 @@
  }
 
  void printf_ulong64(const char*name, uint64_t v) {
-    printf("%-9s= 0x%lX\n", name, v);
+  char fmt[80];
+  sprintf(fmt,"%s%s\n", "%-9s= 0x", "%"PRIu64);
+  printf("%s\n", fmt);
+  printf(fmt, name, v);
+  ut_assert(0>1);
  }
 
 void clean_up(int *final_value)
@@ -35,7 +39,7 @@ int main()
 
   logger_init(NULL, LOGGER_LEVEL_DEBUG);
 
-  printf_int("uchar", sizeof_to_int(uchar));
+  printf_int("uchar", sizeof_to_int(uc));
   printf_int("ushort", sizeof_to_int(us));
   printf_int("uint32_t", sizeof_to_int(i));
   printf_int("uint", sizeof_to_int(ui));
@@ -50,5 +54,10 @@ int main()
   ut_logger_debug("buf=%p\n", buf);
 
 
+#ifdef IPC_BUS_DEBUG
+  ut_logger_warn("DEBUG was defined\n");
+#else
+  printf("DEBUG was not defined\n");
+#endif
   return 0;
 }

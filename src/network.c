@@ -27,7 +27,7 @@ void _die(ut_logger_context_t *ut_ctx, int exit_code, const char *fmt, ...)
 extern int tcp_new()
 {
   int fd = socket(AF_INET, SOCK_STREAM, 0);
-  assert(fd > 0 );
+  ut_assert(fd > 0 );
   logger_debug("fd=%d\n", fd);
   return fd;
 }

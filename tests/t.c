@@ -7,8 +7,9 @@
 
 int main()
 {
+  fork_ctx_t *folk;
   logger_init(NULL, LOGGER_LEVEL_DEBUG);
-  fork_ctx_t_run("~/conf/bash/get-os-env.lua HOME", NULL);
+  folk = fork_ctx_t_run("pwd", NULL);
 
   return 0;
 }

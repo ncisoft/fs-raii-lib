@@ -23,6 +23,7 @@ extern "C"
 #include <ipc-bus/fork.h>
 #include <ipc-bus/raw-raii.h>
 #include <ipc-bus/memory-pool.h>
+#include <ipc-bus/colors.h>
 
 #ifndef cast
 #define cast(t, exp)  ((t)(exp))
@@ -55,19 +56,42 @@ extern void _ut_shorten_filename(ut_logger_context_t* ut_ctx);
 //#define nop(...) ((void) 0)
 #define nop(msg, ...) ut_unused(##__VA_ARGS__)
 extern void ut_unused();
+extern void ut_print_stacktrace(const char *fname, int lineno);
 #define label(...) nop()
+
+#define ut_assert(expr)                                                        \
+  do {                                                                         \
+    if (!(expr)) {                                                             \
+      ut_print_stacktrace(__FILE__, __LINE__);                                 \
+      assert(expr);                                                            \
+    }                                                                          \
+  } while (0)
 
 #define ut_logger_context_t_init(ctx) ut_logger_context_t ctx={.m_file = __FILE__, .m_func = __func__, .m_lineno = __LINE__}
 
 #define die(exit_code, fmt, ...)                                               \
   do {                                                                         \
     ut_logger_context_t_init(ut_ctx);                                          \
+    _ut_shorten_filename(&ut_ctx);                                             \
     _die(&ut_ctx, exit_code, fmt, ##__VA_ARGS__);                              \
   } while (0)
 
-#define ut_logger_trace(format, ...)  \
-    ut_logger_context_t_init(ut_ctx); \
-    logger_printf(LOGGER_LEVEL_TRACE, LOGGER_COLOR_CYAN, LOGGER_PREFIX format, "TRACE", ut_ctx.m_file, ut_ctx.m_func, ut_ctx.m_lineno, ##__VA_ARGS__)
+#ifndef IPC_BUS_DEBUG
+#define ut_logger_trace(format, ...) ut_unused(format, ##__VA_ARGS__)
+#define ut_logger_debug(format, ...) ut_unused(format, ##__VA_ARGS__)
+#define ut_logger_warn(format, ...) ut_unused(format, ##__VA_ARGS__)
+#define ut_logger_info(format, ...) ut_unused(format, ##__VA_ARGS__)
+#define ut_logger_warn(format, ...) ut_unused(format, ##__VA_ARGS__)
+#define ut_logger_error(format, ...) ut_unused(format, ##__VA_ARGS__)
+#define ut_logger_fatal(format, ...) ut_unused(format, ##__VA_ARGS__)
+#else
+#define ut_logger_trace(format, ...)                                           \
+  do {                                                                         \
+    ut_logger_context_t_init(ut_ctx);                                          \
+    logger_printf(LOGGER_LEVEL_TRACE, LOGGER_COLOR_CYAN, LOGGER_PREFIX format, \
+                  "TRACE", ut_ctx.m_file, ut_ctx.m_func, ut_ctx.m_lineno,      \
+                  ##__VA_ARGS__);                                              \
+  } while (0)
 
 #define xt_logger_debug(format, ...)                                           \
   do {                                                                         \
@@ -114,9 +138,15 @@ extern void ut_unused();
                   ##__VA_ARGS__);                                              \
   } while (0)
 
-#define ut_logger_fatal(format, ...)  \
-    ut_logger_context_t_init(ut_ctx); \
-    logger_printf(LOGGER_LEVEL_FATAL, LOGGER_COLOR_RED_BOLD, LOGGER_PREFIX format, "FATAL", ut_ctx.m_file, ut_ctx.m_func, ut_ctx.m_lineno, ##__VA_ARGS__)
+#define ut_logger_fatal(format, ...)                                           \
+  do {                                                                         \
+    ut_logger_context_t_init(ut_ctx);                                          \
+    _ut_shorten_filename(&ut_ctx);                                             \
+    logger_printf(LOGGER_LEVEL_FATAL, LOGGER_COLOR_RED_BOLD,                   \
+                  LOGGER_PREFIX format, "FATAL", ut_ctx.m_file, ut_ctx.m_func, \
+                  ut_ctx.m_lineno, ##__VA_ARGS__);                             \
+  } while (0)
+#endif
 
 #define ut_print_time_elapsed(keyword)                                         \
   do {                                                                         \
