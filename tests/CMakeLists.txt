@@ -22,6 +22,10 @@ set(TYPES-TEST_SOURCE
   types-test.c
         )
 
+set(TESTDELAY_SOURCE
+  testdelay.c
+        )
+
 if (WITH_STATIC)
 find_library(LIBEV libev.a)
 
@@ -41,11 +45,13 @@ set(_STDLIBS
   core
   ev
   cork
+  task
 )
 list(JOIN _STDLIBS " " STDLIBS)
 
 add_executable(ipc-bus-server ${IPCBUS_SOURCE})
 add_executable(t.exe ${T_SOURCE})
+add_executable(testdelay.exe ${TESTDELAY_SOURCE})
 add_executable(types-test.exe ${TYPES-TEST_SOURCE})
 
 target_link_libraries(ipc-bus-server
@@ -53,12 +59,16 @@ target_link_libraries(ipc-bus-server
   core
   ev
   cork
+  task
 )
 
 target_link_libraries(t.exe "${_STDLIBS}"
 )
 
 target_link_libraries(types-test.exe "${_STDLIBS}"
+)
+
+target_link_libraries(testdelay.exe "${_STDLIBS}"
 )
 
 endif ()

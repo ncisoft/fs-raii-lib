@@ -44,3 +44,4 @@ include/ipc-bus/config.h
 .ccls-cache/*
 .clangd
 */*#*
+compile_commands.json

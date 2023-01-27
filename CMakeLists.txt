@@ -55,6 +55,10 @@ set(FLAGS
   "-Wno-unused"
   "-Wno-format-overflow"
   "-Wno-unused-variable"
+  "-Wno-error=discarded-qualifiers"
+  "-Wno-discarded-qualifiers"
+  "-Wno-int-to-pointer-cast"
+  "-Wno-pointer-to-int-cast"
 )
 list(JOIN FLAGS " " FLAGS2)
 
@@ -122,6 +126,23 @@ if (WITH_STATIC)
   target_compile_definitions(cork PUBLIC -DCORK_API=CORK_LOCAL)
 endif ()
 
+set(LIBTASK_SOURCE
+  ./contrib/libtask/asm.S
+  ./contrib/libtask/channel.c
+  ./contrib/libtask/context.c
+  ./contrib/libtask/fd.c
+  ./contrib/libtask/net.c
+  ./contrib/libtask/print.c
+  ./contrib/libtask/qlock.c
+  ./contrib/libtask/rendez.c
+  ./contrib/libtask/task.c
+)
+
+if (WITH_STATIC)
+  add_library(task STATIC ${LIBTASK_SOURCE})
+  target_compile_definitions(task PUBLIC)
+endif ()
+
 set(LIBLOGGER_SOURCE
   contrib/logger/logger.c
 )
@@ -156,6 +177,7 @@ endif(CMAKE_C_COMPILER_ID STREQUAL "GNU")
 include_directories(contrib/libcork/include)
 #include_directories(contrib/libcork/build/include)
 include_directories(contrib/logger)
+include_directories(contrib/libtask)
 #include_directories(.xopt/include)
 include_directories(include)
 
