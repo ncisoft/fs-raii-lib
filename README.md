@@ -4,6 +4,7 @@
 ansi c (c99) compatible function-scope RAIIimplementation
 
 Build tools:
+* [CMake](https://cmake.org/)
 * [Scons](https://scons.org/)
 * [Ninja](https://ninja-build.org/)
 
