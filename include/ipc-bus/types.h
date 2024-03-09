@@ -18,6 +18,10 @@
 #define cast(t, exp) ((t)(exp))
 #endif
 
+#define KB (1024)
+#define MB (1024*KB)
+#define GB (1024*MB)
+
 #ifndef HAVE_UCHAR
 typedef uint8_t uchar;
 #endif
@@ -43,3 +47,5 @@ typedef uint64_t ulonglong;
 #endif
 
 #define sizeof_to_int (int)sizeof
+#define cast_to_int(o) cast(int, o)
+#define cast_to_uint(o) cast(uint, o)

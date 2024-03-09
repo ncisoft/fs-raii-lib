@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <libcork/ds.h>
 #include <ipc-bus/utils.h>
+#include <pt.h>
 
 struct sock_ev_serv {
   ev_io io;
@@ -23,30 +24,42 @@ struct sock_ev_client {
   ev_io io;
   int fd;
   int index;
+  struct pt m_pt;
   struct sock_ev_serv* server;
 };
-struct {
+
+typedef struct {
+  ev_io m_io;
+  ev_timer m_watcher;
+  struct pt m_pt;
+} connection_t;
+
+struct L {
   struct cork_managed_buffer *buf;
-} L = {.buf = NULL};
+  struct pt clean_pt;
+};
+
+struct L L = {.buf = NULL, .clean_pt = pt_init()};
 
 static void client_cb(EV_P_ ev_io *w, int revents)
 {
-  // a client has become readable
+  comment("a client has become readable") ;
 
   struct sock_ev_client* client = (struct sock_ev_client*) w;
 
   int n;
   char str[BUFSIZ] = ".\0";
 
+  assert(1 != 0);
   printf("[r]");
   n = recv(client->fd, str, BUFSIZ, 0);
   if (n <= 0) {
     if (0 == n) {
       // an orderly disconnect
       logger_debug("orderly disconnect\n");
-      ev_io_stop(EV_A_ &client->io);
+      ev_io_stop(EV_A_ & client->io);
       close(client->fd);
-    }  else if (EAGAIN == errno) {
+    } else if (EAGAIN == errno) {
       puts("should never get in this state with libev");
     } else {
       perror("recv");
@@ -63,12 +76,14 @@ static void client_cb(EV_P_ ev_io *w, int revents)
     perror("send");
   }
 }
+
 inline static struct sock_ev_client* client_new(int fd)
 {
   struct sock_ev_client* client;
 
   client = realloc(NULL, sizeof(struct sock_ev_client));
   client->fd = fd;
+  client->m_pt = L.clean_pt;
   //client->server = server;
   tcp_setnonblock(client->fd);
   ev_io_init(&client->io, client_cb, client->fd, EV_READ);

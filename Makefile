@@ -23,8 +23,7 @@ init:
 
 build:
 	@mkdir -p build
-	cd build && cmake .. && cmake ..
-	make -C ./build -j$(nproc)
+	./bin/cmp-src.sh build/Makefile ./src ./include ./tests
 	/usr/bin/ctags-exuberant --tag-relative=yes --langmap=c:.c.h -f tags src/*.[hc] tests/*.[hc] .xopt/include/*.h
 
 build-verbose: init

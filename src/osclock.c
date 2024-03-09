@@ -48,11 +48,11 @@ ut_clock_t time_offset()
   else
     now = get_clock_t();
   timersub(&now, &L.start_t, &ts_offset);
-  logger_debug("time_offset: %ld.%06ld\n", (long int)ts_offset.tv_sec, (long int)ts_offset.tv_usec);
+  ut_logger_debug("time_offset: %ld.%06ld\n", (long int)ts_offset.tv_sec, (long int)ts_offset.tv_usec);
   return ts_offset;
 }
 
-void ut_print_time_elapsed_impl(ut_logger_context_t *ctx, char *keyword)
+void ut_print_time_elapsed_impl(ut_logger_context_t *ctx, const char *keyword)
 {
   ut_clock_t elapsed = time_offset();
   ut_logger_info("[%s] elapsed time: %ld.%06ld\n", keyword, (long int)elapsed.tv_sec, (long int)elapsed.tv_usec);
@@ -89,20 +89,6 @@ int msleep(long msec)
   } while (res && errno == EINTR);
 
   return res;
-}
-
-void _ut_shorten_filename(ut_logger_context_t *ut_ctx) {
-  char delimiter = '/';
-  const char *cp_head = ut_ctx->m_file;
-  char *cp = strrchr(cp_head, delimiter);
-  if (cp != NULL) {
-    cp --;
-    while (cp >= cp_head && *cp != delimiter) {
-      cp--;
-    }
-    cp++;
-    ut_ctx->m_file = cp;
-  }
 }
 /**
 * convert pid_t to uint32_t, prevent platform differences

@@ -1,5 +1,5 @@
 "let g:EasyGrepFilesToExclude = "*.bak,*~,cscope.*,*.a,*.o,*.pyc,*.bak,*.c, build/*,tags"
-let g:EasyGrepFilesToExclude=".git,build,tags,*.bak,*.o,*.s"
+let g:EasyGrepFilesToExclude=".git,build,tags,*.bak,*.o,*.s,contrib,.xopt"
 let g:EasyGrepRoot = "repository"
 set wildignore=*.swp,.gitignore
 let g:EasyGrepPerlStyle=1
@@ -93,3 +93,6 @@ set autochdir
 
 nmap <leader>make :!cd .. && scons<cr>
 nmap <leader>mk :!cd .. && scons<cr>
+set colorcolumn=100
+highlight ColorColumn ctermbg=lightcyan guibg=blue
+

@@ -3,6 +3,14 @@
 
 #include <ipc-bus/types.h>
 #include <ipc-bus/utils.h>
+#include <pt.h>
+
+typedef struct {
+  ev_io m_io;
+  ev_timer m_watcher;
+  struct pt m_pt;
+} connection_t;
+
 
 // typedef unsigned int uint;
 

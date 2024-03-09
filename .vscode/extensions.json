@@ -3,6 +3,7 @@
         "llvm-vs-code-extensions.vscode-clangd",
         "notskm.clang-tidy",
         "wayou.vscode-todo-highlight",
-        "mateuszdrewniak.theme-dracula-dark-plus"
+        "mateuszdrewniak.theme-dracula-dark-plus",
+        "ms-ceintl.vscode-language-pack-zh-hans"
     ]
 }

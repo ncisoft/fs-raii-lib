@@ -1,11 +1,18 @@
-#include <stdio.h>
-#include <fs_raii.h>
-#include <logger.h>
+#include <ipc-bus/fs_raii.h>
 #include <time.h>
 #include <errno.h>
 #include <sys/time.h>
 #include <sys/select.h>
 #include <ipc-bus/utils.h>
+
+void test01() {
+  using_raii_func_scope(0) {
+    void *p = fs_malloc(pfs_root, 64);
+    void *p2 = fs_malloc(pfs_root, 32);
+    ut_unused(p);
+    ut_unused(p2);
+  }
+}
 
 int main()
 {
@@ -49,11 +56,12 @@ int main()
     }
 
   init_clock();
-  msleep(1400);
+  msleep(400);
   //msleep_usleep(2400);
   ut_print_time_elapsed("step-00");
-  msleep_usleep(400);
+  msleep_usleep(100);
   ut_print_time_elapsed("step-01");
+  test01();
   return 0;
 }
 

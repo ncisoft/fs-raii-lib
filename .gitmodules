@@ -4,3 +4,9 @@
 [submodule "contrib/libcork"]
 	path = contrib/libcork
 	url = https://github.com/ncisoft/libcork.git
+[submodule "contrib/melon"]
+	path = contrib/melon
+	url = https://github.com/Water-Melon/Melon.git
+[submodule "contrib/pt"]
+	path = contrib/pt
+	url = https://github.com/zserge/pt.git

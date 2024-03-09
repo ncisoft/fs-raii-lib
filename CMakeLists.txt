@@ -1,5 +1,12 @@
 cmake_minimum_required(VERSION 3.2)
-project(IPCBUS)
+project(
+  IPCBUS
+  # The version number is modified by tools/release.py
+    VERSION 0.0.1
+    DESCRIPTION "ipc bus"
+    HOMEPAGE_URL "https://github.com/ncisoft/fs-raii-lib"
+    LANGUAGES C
+  )
 
 set(IPCBUS_VERSION_MAJOR 2)
 set(IPCBUS_VERSION_MINOR 41)
@@ -49,7 +56,8 @@ check_type_size(uint_t HAVE_UINT_T)
 
 set(FLAGS
   "${CMAKE_C_FLAGS}"
-  "-Wall -Wno-unknown-pragmas"
+  "-Wall -Wno-unknown-pragmas "
+  "-Wno-error=stringop-truncation -Wno-stringop-truncation"
   "-Wno-sign-compare"
   "-Wwrite-strings"
   "-Wno-unused"
@@ -65,7 +73,7 @@ list(JOIN FLAGS " " FLAGS2)
 if(CMAKE_C_COMPILER_ID MATCHES GNU)
   set(CMAKE_C_FLAGS         "${FLAGS2}")
   set(CMAKE_C_FLAGS_DEBUG   "-O3 -g3")
-  set(CMAKE_C_FLAGS_RELEASE "-O3")
+  set(CMAKE_C_FLAGS_RELEASE "-O3 -g")
   set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
@@ -75,7 +83,7 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif(CMAKE_COMPILER_IS_GNUCXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CC 99)
+set(CMAKE_CC 100)
 set(CMAKE_CC True)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=gnu99  ")
@@ -152,13 +160,92 @@ if (WITH_STATIC)
   target_compile_definitions(logger PUBLIC)
 endif ()
 
+set(LIBCJSON_SOURCE
+  contrib/cjson/cJSON.c
+)
+
+if (WITH_STATIC)
+  add_library(cjson STATIC ${LIBCJSON_SOURCE})
+  target_compile_definitions(cjson PUBLIC)
+endif ()
+
+set(LIBMELON_SOURCE
+  contrib/melon/src/mln_rbtree.c
+  contrib/melon/src/mln_aes.c
+  contrib/melon/src/mln_regexp.c
+  contrib/melon/src/mln_rs.c
+  contrib/melon/src/mln_lang_ast.c
+  contrib/melon/src/mln_array.c
+  contrib/melon/src/mln_matrix.c
+  contrib/melon/src/mln_thread_pool.c
+  contrib/melon/src/mln_queue.c
+  contrib/melon/src/mln_iothread.c
+  contrib/melon/src/mln_lang_str.c
+  contrib/melon/src/mln_alloc.c
+  contrib/melon/src/mln_ipc.c
+  contrib/melon/src/mln_error.c
+  contrib/melon/src/mln_lex.c
+  contrib/melon/src/mln_lang_real.c
+  contrib/melon/src/mln_sha.c
+  contrib/melon/src/mln_cron.c
+  contrib/melon/src/mln_gc.c
+  contrib/melon/src/mln_connection.c
+  contrib/melon/src/mln_log.c
+  contrib/melon/src/mln_lang_array.c
+  contrib/melon/src/mln_bignum.c
+  contrib/melon/src/mln_json.c
+  contrib/melon/src/mln_stack.c
+  contrib/melon/src/mln_tools.c
+  contrib/melon/src/mln_websocket.c
+  contrib/melon/src/mln_thread.c
+  contrib/melon/src/mln_fec.c
+  contrib/melon/src/mln_file.c
+  contrib/melon/src/mln_fork.c
+  contrib/melon/src/mln_core.c
+  contrib/melon/src/mln_lang_int.c
+  contrib/melon/src/mln_path.c
+  contrib/melon/src/mln_trace.c
+  contrib/melon/src/mln_parser_generator.c
+  contrib/melon/src/mln_fheap.c
+  contrib/melon/src/mln_list.c
+  contrib/melon/src/mln_lang_func.c
+  contrib/melon/src/mln_des.c
+  contrib/melon/src/mln_defs.c
+  contrib/melon/src/mln_lang_nil.c
+  contrib/melon/src/mln_http.c
+  contrib/melon/src/mln_global.c
+  contrib/melon/src/mln_rc.c
+  contrib/melon/src/mln_rsa.c
+  contrib/melon/src/mln_lang_obj.c
+  contrib/melon/src/mln_asn1.c
+  contrib/melon/src/mln_string.c
+  contrib/melon/src/mln_chain.c
+  contrib/melon/src/mln_lang.c
+  contrib/melon/src/mln_lang_bool.c
+  contrib/melon/src/mln_md5.c
+  contrib/melon/src/mln_conf.c
+  contrib/melon/src/mln_hash.c
+  contrib/melon/src/mln_prime_generator.c
+  contrib/melon/src/mln_base64.c
+  contrib/melon/src/mln_event.c
+)
+
+if (WITH_STATIC)
+    # add_library(melon STATIC ${LIBMELON_SOURCE})
+    # target_compile_definitions(melon PUBLIC -D_REENTRANT)
+endif ()
+
 set(LIBCORE_SOURCE
   src/osclock.c
+  src/utils.c
   src/network.c
   src/network.c
   src/fork.c
   src/raw-raii.c
+  src/fs_raii.c
   src/mpool.c
+  src/fpctx.c
+  src/mraii.c
   )
 if (WITH_STATIC)
     add_library(core STATIC ${LIBCORE_SOURCE})
@@ -177,7 +264,10 @@ endif(CMAKE_C_COMPILER_ID STREQUAL "GNU")
 include_directories(contrib/libcork/include)
 #include_directories(contrib/libcork/build/include)
 include_directories(contrib/logger)
+include_directories(contrib/cjson)
+#include_directories(contrib/melon/include)
 include_directories(contrib/libtask)
+include_directories(contrib/pt)
 #include_directories(.xopt/include)
 include_directories(include)
 
